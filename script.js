@@ -1,10 +1,11 @@
-const API_BASE_URL = "https://mexican-cartel-news-scraper.onrender.com"; // ✅ Replace localhost with Render URL
+// ✅ Define Render API URL (Replace `localhost` with your deployed Render URL)
+const API_BASE_URL = "https://mexican-cartel-news-scraper.onrender.com"; 
 
 // ✅ Function to Load RSS Articles
 async function loadArticles() {
     try {
         console.log("Fetching articles from API...");
-        const response = await fetch(`${API_BASE_URL}/rss`);
+        const response = await fetch(`${API_BASE_URL}/rss`); // ✅ Uses Render URL
 
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -17,17 +18,16 @@ async function loadArticles() {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(textResponse, "application/xml");
 
-        // Check if parsing failed
         if (xmlDoc.querySelector("parsererror")) {
             throw new Error("Error parsing XML.");
         }
 
         let articles = [];
-        const items = xmlDoc.getElementsByTagName("item"); // Extracting RSS feed items
+        const items = xmlDoc.getElementsByTagName("item");
 
         for (let item of items) {
             let title = item.getElementsByTagName("title")[0]?.textContent || "No Title";
-            let link = item.getElementsByTagName("link")[0]?.textContent || "#"; // Ensure it's getting the link properly
+            let link = item.getElementsByTagName("link")[0]?.textContent || "#";
             let published = item.getElementsByTagName("pubDate")[0]?.textContent || "Unknown Date";
 
             articles.push({ title, link, published });
@@ -79,7 +79,7 @@ document.getElementById("category1Btn").addEventListener("click", async function
     articlesSection.innerHTML = "<p>Loading cartel links...</p>";
 
     try {
-        const response = await fetch(`${API_BASE_URL}/cartel-links`, { mode: 'cors' });
+        const response = await fetch(`${API_BASE_URL}/cartel-links`, { mode: 'cors' }); // ✅ Uses Render URL
 
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
