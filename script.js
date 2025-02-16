@@ -1,7 +1,10 @@
+const API_BASE_URL = "https://mexican-cartel-news-scraper.onrender.com"; // ✅ Replace localhost with Render URL
+
+// ✅ Function to Load RSS Articles
 async function loadArticles() {
     try {
-        console.log("Fetching articles from proxy...");
-        const response = await fetch('http://localhost:3000/rss');
+        console.log("Fetching articles from API...");
+        const response = await fetch(`${API_BASE_URL}/rss`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -38,6 +41,7 @@ async function loadArticles() {
     }
 }
 
+// ✅ Function to Display Articles in HTML
 function displayArticles(articles) {
     const articlesDiv = document.getElementById('articles');
     articlesDiv.innerHTML = '';
@@ -58,12 +62,13 @@ function displayArticles(articles) {
     });
 }
 
+// ✅ Function to Show Error Messages
 function displayErrorMessage(message) {
     const articlesDiv = document.getElementById('articles');
     articlesDiv.innerHTML = `<p class="error">${message}</p>`;
 }
 
-// Load articles on page load
+// ✅ Load articles on page load
 window.onload = loadArticles;
 
 // ✅ Event listener for "Mexican Cartel Links" button
@@ -74,8 +79,8 @@ document.getElementById("category1Btn").addEventListener("click", async function
     articlesSection.innerHTML = "<p>Loading cartel links...</p>";
 
     try {
-        const response = await fetch("http://localhost:3001/cartel-links", { mode: 'cors' });
-        
+        const response = await fetch(`${API_BASE_URL}/cartel-links`, { mode: 'cors' });
+
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -94,7 +99,7 @@ document.getElementById("category1Btn").addEventListener("click", async function
     }
 });
 
-// ✅ Fix: Correctly closing event listener for Home button
+// ✅ Event listener for "Home" button
 document.getElementById("homeBtn").addEventListener("click", function(event) {
     event.preventDefault(); // Prevent default navigation behavior
 
